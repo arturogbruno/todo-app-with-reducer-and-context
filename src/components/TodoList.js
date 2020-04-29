@@ -12,9 +12,7 @@ function TodoList({ todos, toggleTodo, editTodo, removeTodo }) {
                     {todos.map((todo, idx) => (
                         <React.Fragment key={todo.id}>
                             <Todo
-                                id={todo.id}
-                                task={todo.task}
-                                completed={todo.completed}
+                                {...todo}
                                 toggleTodo={toggleTodo}
                                 editTodo={editTodo}
                                 removeTodo={removeTodo}
