@@ -1,5 +1,5 @@
-import React from "react";
-import useToggleState from '../hooks/useToggleState';
+import React, { useContext } from "react";
+import useToggleState from "../hooks/useToggleState";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -7,15 +7,17 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditTodoForm from './EditTodoForm';
+import EditTodoForm from "./EditTodoForm";
+import { TodosContext } from "../contexts/todos.context";
 
-function Todo({ id, task, completed, toggleTodo, editTodo, removeTodo }) {
+function Todo({ id, task, completed }) {
+    const { removeTodo, toggleTodo } = useContext(TodosContext);
     const [isEditing, toggle] = useToggleState(false);
 
     return (
-        <ListItem style={{height: "64px"}}>
+        <ListItem style={{ height: "64px" }}>
             {isEditing ? (
-                <EditTodoForm id={id} task={task} editTodo={editTodo} toggleEditForm={toggle} /> 
+                <EditTodoForm id={id} task={task} toggleEditForm={toggle} />
             ) : (
                 <>
                     <Checkbox
@@ -24,7 +26,9 @@ function Todo({ id, task, completed, toggleTodo, editTodo, removeTodo }) {
                         onClick={() => toggleTodo(id)}
                     />
                     <ListItemText
-                        style={{ textDecoration: completed ? "line-through" : "none" }}
+                        style={{
+                            textDecoration: completed ? "line-through" : "none",
+                        }}
                     >
                         {task}
                     </ListItemText>
@@ -32,7 +36,10 @@ function Todo({ id, task, completed, toggleTodo, editTodo, removeTodo }) {
                         <IconButton aria-label="Edit" onClick={toggle}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="Delete" onClick={() => removeTodo(id)}>
+                        <IconButton
+                            aria-label="Delete"
+                            onClick={() => removeTodo(id)}
+                        >
                             <DeleteIcon />
                         </IconButton>
                     </ListItemSecondaryAction>
